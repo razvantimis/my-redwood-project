@@ -1,6 +1,9 @@
 import { hydrateRoot, createRoot } from 'react-dom/client'
 
 import App from './App'
+import { Document } from './Document'
+import Routes from './Routes'
+
 /**
  * When `#redwood-app` isn't empty then it's very likely that you're using
  * prerendering. So React attaches event listeners to the existing markup
@@ -17,8 +20,17 @@ if (!redwoodAppElement) {
 }
 
 if (redwoodAppElement.children?.length > 0) {
-  hydrateRoot(redwoodAppElement, <App />)
+  hydrateRoot(
+    document,
+    <Document css={window.__assetMap?.()?.css}>
+      <App/>
+    </Document>
+  )
 } else {
-  const root = createRoot(redwoodAppElement)
-  root.render(<App />)
+  const root = createRoot(document)
+  root.render(
+    <Document css={window.__assetMap?.()?.css}>
+      <App />
+    </Document>
+  )
 }
